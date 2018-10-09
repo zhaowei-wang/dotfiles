@@ -57,6 +57,10 @@
   (setq rtags-autostart-diagnostics t)
   (rtags-diagnostics)
   (setq rtags-completions-enabled t)
+  :bind
+  ("M-." . rtags-find-symbol-at-point)
+  ("M-[" . rtags-location-stack-back)
+  ("M-]" . rtags-location-stack-forward)
   )
 
 (use-package company
@@ -92,3 +96,7 @@
     ))
 
 (cmake-ide-setup)
+
+; random keybinds
+(add-hook 'c-mode-common-hook
+ (lambda() (local-set-key  (kbd "C-c o") 'ff-find-other-file)))
