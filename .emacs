@@ -5,7 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (flycheck-rtags dash cmake-ide company-rtags rtags irony ac-helm helm helm-ebdb))))
+    (projectile flycheck-rtags dash cmake-ide company-rtags rtags irony ac-helm helm helm-ebdb))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -97,6 +97,10 @@
 
 (cmake-ide-setup)
 
-; random keybinds
+; random key-binds
 (add-hook 'c-mode-common-hook
- (lambda() (local-set-key  (kbd "C-c o") 'ff-find-other-file)))
+ (lambda() (local-set-key  (kbd "C-c o") 'ff-find-other-file))) ; switch between header/impl
+
+; enable line numbers
+(global-linum-mode t)
+(setq linum-format "%4d \u2502 ") ; add padding between line number and text
