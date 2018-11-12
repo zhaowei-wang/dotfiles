@@ -5,7 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (projectile flycheck-rtags dash cmake-ide company-rtags rtags irony ac-helm helm helm-ebdb))))
+    (company projectile flycheck-rtags dash cmake-ide company-rtags rtags irony ac-helm helm helm-ebdb))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -95,7 +95,11 @@
     (add-hook 'c++-mode-hook #'setup-flycheck-rtags)
     ))
 
-(cmake-ide-setup)
+(use-package cmake-ide
+  :ensure t
+  :config
+  (cmake-ide-setup)
+  )
 
 ; random key-binds
 (add-hook 'c-mode-common-hook
@@ -104,3 +108,20 @@
 ; enable line numbers
 (global-linum-mode t)
 (setq linum-format "%4d \u2502 ") ; add padding between line number and text
+; enable autocomplete paired brackets
+(electric-pair-mode 1)
+(setq electric-pair-preserve-balance nil)
+
+; enable copy/paste from X11 system clipboard
+(defun copy-from-osx ()
+  (shell-command-to-string "pbpaste"))
+
+(defun paste-to-osx (text &optional push)
+  (let ((process-connection-type nil))
+  (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
+  (process-send-string proc text)
+  (process-send-eof proc))))
+
+(setq interprogram-cut-function 'paste-to-osx)
+(setq interprogram-paste-function 'copy-from-osx)
+
