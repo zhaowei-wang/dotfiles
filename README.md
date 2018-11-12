@@ -5,3 +5,4 @@
 3. brew install emacs (need v26)
 4. Open emacs, M-x package-install RET use-package RET, close emacs
 5. Open emacs, allow use-package to install all dependencies
+6. Open emacs, M-x rtags-install RET
