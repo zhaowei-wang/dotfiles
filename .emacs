@@ -51,56 +51,6 @@
   )
   )
 
-(use-package rtags
-  :ensure t
-  :config
-  (setq rtags-autostart-diagnostics t)
-  (rtags-diagnostics)
-  (setq rtags-completions-enabled t)
-  :bind
-  ("M-." . rtags-find-symbol-at-point)
-  ("M-[" . rtags-location-stack-back)
-  ("M-]" . rtags-location-stack-forward)
-  )
-
-(use-package company
-  :ensure t
-  :config
-  (push 'company-rtags company-backends)
-  (global-company-mode)
-  :bind
-  (("C-o" . company-complete))
-  )
-
-(defun my-flycheck-rtags-setup ()
- (flycheck-select-checker 'rtags)
- (setq-local flycheck-highlighting-mode nil) ;; RTags creates more accurate overlays
-					; (setq-local flycheck-check-syntax-automatically nil)
- )
-
-(use-package flycheck-rtags
-  :ensure t
-  :config
-  (progn
-    ;; ensure that we use only rtags checking
-    ;; https://github.com/Andersbakken/rtags#optional-1
-    (add-hook 'c-mode-common-hook 'flycheck-mode)
-    (defun setup-flycheck-rtags ()
-      (flycheck-select-checker 'rtags)
-      (setq-local flycheck-highlighting-mode nil) ;; RTags creates more accurate overlays.
-      (setq-local flycheck-check-syntax-automatically nil)
-      (rtags-set-periodic-reparse-timeout 2.0)  ;; Run flycheck 2 seconds after being idle.
-      )
-    (add-hook 'c-mode-hook #'setup-flycheck-rtags)
-    (add-hook 'c++-mode-hook #'setup-flycheck-rtags)
-    ))
-
-(use-package cmake-ide
-  :ensure t
-  :config
-  (cmake-ide-setup)
-  )
-
 ; random key-binds
 (add-hook 'c-mode-common-hook
  (lambda() (local-set-key  (kbd "C-c o") 'ff-find-other-file))) ; switch between header/impl
@@ -125,3 +75,5 @@
 (setq interprogram-cut-function 'paste-to-osx)
 (setq interprogram-paste-function 'copy-from-osx)
 
+; set column line marker at 80 spaces
+('require 'column-marker)
